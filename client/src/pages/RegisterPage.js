@@ -8,8 +8,12 @@ const RegisterPage = () => {
     const handleRegister = (e) => {
         e.preventDefault()
         axios.post("http://localhost:5000/api/users/register", {
-            name: username,
+            username: username,
             password: password
+        }).then((res) => {
+            console.log(res)
+        }).catch((err) => {
+            console.log(err)
         })
     }
     return (
