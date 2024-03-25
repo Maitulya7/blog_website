@@ -4,7 +4,9 @@ const dotenv = require("dotenv").config()
 const cors = require('cors')
 const errorHandler = require("./middleware/errorHandler")
 const PORT = process.env.PORT || 5001
+const connectDb = require("./config/dbConnection")
 
+connectDb();
 app.use(cors({
     origin: 'http://localhost:3000',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
