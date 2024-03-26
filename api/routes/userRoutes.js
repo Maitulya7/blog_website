@@ -1,10 +1,12 @@
 const express = require("express")
 const router = express.Router()
-const {userLogin , userRegister} = require("../controllers/userController")
+const {userLogin , userRegister , userInfo} = require("../controllers/userController")
+const validateToken = require("../middleware/tokenHandler");
 
 
 router.post("/login",userLogin)
 router.post("/register",userRegister)
+router.get("/userInfo",validateToken , userInfo)
 
 
 

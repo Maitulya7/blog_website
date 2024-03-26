@@ -69,7 +69,14 @@ const userRegister = asyncHandler(async (req, res) => {
     }
 })
 
+const userInfo = asyncHandler(
+    async ( req , res ) =>{
+        res.status(200).json(req.user)
+    }
+)
+
 module.exports = {
     userLogin,
-    userRegister
+    userRegister,
+    userInfo
 }
