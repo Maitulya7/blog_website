@@ -22,7 +22,7 @@ const userLogin = asyncHandler(async (req, res) => {
             process.env.ACCESS_TOKEN_SECRET,
             { expiresIn: "15m" }
         )
-        res.status(200).json({ accessToken })
+        res.status(200).json({ accessToken , username })
     } else {
         res.status(401)
         throw new Error("Username or Password is invalid")
