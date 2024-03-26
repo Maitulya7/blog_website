@@ -7,12 +7,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom'
 import { Button, Stack, Typography } from '@mui/material';
 import { AccountCircle, Lock } from '@mui/icons-material';
+import Navbar from '../components/navbar';
 
 const LoginPage = () => {
 
     const navigate = useNavigate()
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+
 
     const handleLogin = (e) => {
         e.preventDefault()
@@ -25,9 +27,10 @@ const LoginPage = () => {
                     position: "top-right",
                     autoClose: 3000, // Adjust as needed
                 });
-                navigate('/')
                 localStorage.setItem("access-token", res.data.accessToken)
                 localStorage.setItem("username", res.data.username)
+                navigate('/')
+                
             }
         }).catch((err) => {
             console.log(err)
@@ -40,12 +43,13 @@ const LoginPage = () => {
     }
     return (
         <>
+        <Navbar />
             <Stack
                 direction="column"
                 alignItems="center"
                 justifyContent="center"
                 spacing={2}
-                sx={{ width: "100%" }}
+                sx={{ width: "100%" , marginTop:"50px"}}
             >
                 <Typography variant="h4" component="h1">
                     Login
