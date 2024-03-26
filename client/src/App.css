@@ -1,9 +1,12 @@
 * {
   box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
 body {
   color: #222;
+  
 }
 
 img {
@@ -38,6 +41,24 @@ header nav {
   display: flex;
   gap: 15px;
 }
+
+header nav .navbar{
+  display: flex;
+  gap: 10px;
+}
+
+header nav .navbar button {
+  width: auto;
+}
+
+header nav .navbar .logout{
+  background-color: #e26161;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+
+
 
 div .post {
   display: grid;
@@ -100,4 +121,51 @@ button {
 
 form h1 {
   text-align: center;
+  margin-bottom: 20px;
+}
+
+
+.dropdown .dropdown_div{
+  display: flex;
+  gap: 10px; 
+  align-items: center; 
+}
+
+
+
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #333;
+  width: 100%;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content button {
+  color: #fff;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  background-color: transparent;
+  border: none;
+  text-align: left;
+}
+
+.dropdown-content button:hover {
+  background-color: #555;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: #555;
 }
