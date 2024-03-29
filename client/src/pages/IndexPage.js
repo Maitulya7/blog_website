@@ -1,7 +1,7 @@
 import React from 'react'
 import BlogPost from '../components/post'
 import Navbar from '../components/navbar'
-import { Box } from '@mui/material'
+import { Box, Grid } from '@mui/material'
 import Footer from '../components/footer'
 
 const IndexPage = () => {
@@ -16,9 +16,20 @@ const IndexPage = () => {
           }
         }}
       >
-        <BlogPost />
-        <BlogPost />
-        <BlogPost />
+        <Grid container spacing={3}>
+          <Grid item xs={12} lg={6}>
+            <BlogPost />
+          </Grid>
+          <Grid item xs={12} lg={6}>
+            <BlogPost />
+          </Grid>
+          <Grid item xs={12} lg={6}>
+            <BlogPost />
+          </Grid>
+          <Grid item xs={12} lg={6}>
+            <BlogPost />
+          </Grid>
+        </Grid>
       </Box>
       <Footer/>
     </Box>
