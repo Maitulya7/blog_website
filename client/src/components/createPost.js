@@ -15,7 +15,7 @@ const CreatePost = () => {
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         if (file) {
-            setImage(file); // Store the File object directly
+            setImage(file); 
         }
     };
 
@@ -26,28 +26,22 @@ const CreatePost = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const token = localStorage.getItem('access-token');
+
         const formData = new FormData();
         formData.append('title', title);
         formData.append('summary', summary);
         formData.append('content', content);
-        if (image) {
-            formData.append('image', image);
-        }
-
-        console.log('FormData Entries:');
-        for (const [key, value] of formData.entries()) {
-            console.log(`${key}: ${value}`);
-        }
-
+        formData.append('image', image);
+        console.log(formData)
         try {
             const response = await axios.post(
                 "http://localhost:5000/api/users/post",
                 formData,
                 {
-                  headers: {
-                    Authorization: `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data', // Explicitly set
-                  },
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'multipart/form-data',
+                    },
                 }
             );
 
@@ -118,7 +112,7 @@ const CreatePost = () => {
                             </Grid>
                             {image && (
                                 <Grid item xs={12}>
-                                    <img src={URL.createObjectURL(new Blob([image], { type: image.type }))} alt="Post" style={{ maxWidth: '100%' }} />
+                                    <img src={URL.createObjectURL(image)} alt="Post" style={{ maxWidth: '100%' }} />
                                 </Grid>
                             )}
                             <Grid item xs={12}>
