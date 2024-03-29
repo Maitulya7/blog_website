@@ -1,7 +1,9 @@
 const User = require("../models/userModel")
+const Post = require("../models/postModel");
 const asyncHandler = require("express-async-handler")
 const bcrypt = require('bcrypt')
 const jwt = require("jsonwebtoken")
+const multer = require('multer');
 
 const userLogin = asyncHandler(async (req, res) => {
     const { username, password } = req.body
@@ -22,7 +24,7 @@ const userLogin = asyncHandler(async (req, res) => {
             process.env.ACCESS_TOKEN_SECRET,
             { expiresIn: "15m" }
         )
-        res.status(200).json({ accessToken , username })
+        res.status(200).json({ accessToken, username })
     } else {
         res.status(401)
         throw new Error("Username or Password is invalid")
@@ -70,13 +72,36 @@ const userRegister = asyncHandler(async (req, res) => {
 })
 
 const userInfo = asyncHandler(
-    async ( req , res ) =>{
+    async (req, res) => {
         res.status(200).json(req.user)
     }
 )
 
+const blogPost = asyncHandler(async (req, res) => {
+  
+    const {title , summary ,content , image} = req.body
+    console.log(req.body)
+    if(!title || !summary || !content){
+        res.status(400);
+        throw new Error("All filed are required")
+    }
+    const post = await Post.create({
+        title,
+        summary,
+        content,
+        image
+    })
+    if (post) {
+        res.status(201).json({post})
+    } else {
+        res.status(400);
+        throw new Error("User data is not valid")
+    }
+});
+
 module.exports = {
     userLogin,
     userRegister,
-    userInfo
+    userInfo,
+    blogPost
 }
