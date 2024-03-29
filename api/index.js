@@ -14,7 +14,7 @@ app.use(cors({
   }));
 
 app.use(express.json());
-app.use("/api/users" , require("./routes/userRoutes"))  
+app.use("/api/users" , require("./routes/userRoutes")) 
 app.use(errorHandler)
 
 app.listen(PORT, console.log(`The server is running of port ${PORT}`))

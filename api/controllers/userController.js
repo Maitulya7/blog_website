@@ -3,7 +3,8 @@ const Post = require("../models/postModel");
 const asyncHandler = require("express-async-handler")
 const bcrypt = require('bcrypt')
 const jwt = require("jsonwebtoken")
-const multer = require('multer');
+
+
 
 const userLogin = asyncHandler(async (req, res) => {
     const { username, password } = req.body
@@ -77,11 +78,12 @@ const userInfo = asyncHandler(
     }
 )
 
-const blogPost = asyncHandler(async (req, res) => {
-  
-    const {title , summary ,content , image} = req.body
-    console.log(req.body)
-    if(!title || !summary || !content){
+const blogPost = asyncHandler( async (req, res) => {
+
+    const { title, summary, content } = req.body
+    const image = req.file
+    console.log(image.filename)
+    if (!title || !summary || !content ) {
         res.status(400);
         throw new Error("All filed are required")
     }
@@ -89,10 +91,10 @@ const blogPost = asyncHandler(async (req, res) => {
         title,
         summary,
         content,
-        image
+        image:image.filename
     })
     if (post) {
-        res.status(201).json({post})
+        res.status(201).json({ post })
     } else {
         res.status(400);
         throw new Error("User data is not valid")
