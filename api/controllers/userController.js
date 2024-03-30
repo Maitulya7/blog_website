@@ -1,16 +1,13 @@
-const User = require("../models/userModel")
-const Post = require("../models/postModel");
-const asyncHandler = require("express-async-handler")
-const bcrypt = require('bcrypt')
-const jwt = require("jsonwebtoken")
-
-
+const User = require("../models/userModel");
+const bcrypt = require('bcrypt');
+const jwt = require("jsonwebtoken");
+const asyncHandler = require("express-async-handler");
 
 const userLogin = asyncHandler(async (req, res) => {
-    const { username, password } = req.body
+    const { username, password } = req.body;
     if (!username || !password) {
         res.status(400);
-        throw new Error("All fields are required")
+        throw new Error("All fields are required");
     }
 
     const user = await User.findOne({ username });
@@ -22,23 +19,21 @@ const userLogin = asyncHandler(async (req, res) => {
                 id: user.id
             }
         },
-            process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: "15m" }
-        )
-        res.status(200).json({ accessToken, username })
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: "15m" }
+        );
+        res.status(200).json({ accessToken, username });
     } else {
-        res.status(401)
-        throw new Error("Username or Password is invalid")
+        res.status(401);
+        throw new Error("Username or Password is invalid");
     }
-
-    res.json({ message: "you are successfully login" })
-})
+});
 
 const userRegister = asyncHandler(async (req, res) => {
-    const { username, password } = req.body
+    const { username, password } = req.body;
     if (!username || !password) {
         res.status(400);
-        throw new Error("All fields are required")
+        throw new Error("All fields are required");
     }
 
     const userAvailable = await User.findOne({ username });
@@ -48,9 +43,8 @@ const userRegister = asyncHandler(async (req, res) => {
         throw new Error("User already registered");
     }
 
-    //hash password
-    const hashedPassword = await bcrypt.hash(password, 10)
-    console.log("hashedPassword: ", hashedPassword, password)
+    const hashedPassword = await bcrypt.hash(password, 10);
+    console.log("hashedPassword: ", hashedPassword, password);
 
     try {
         const user = await User.create({
@@ -63,47 +57,30 @@ const userRegister = asyncHandler(async (req, res) => {
         console.error("Error creating user:", error);
         res.status(500).json({ message: "Internal server error" });
     }
-
-    if (user) {
-        res.status(201).json({ _id: user.id, username: user.username })
-    } else {
-        res.status(400);
-        throw new Error("User data is not valid")
-    }
-})
-
-const userInfo = asyncHandler(
-    async (req, res) => {
-        res.status(200).json(req.user)
-    }
-)
-
-const blogPost = asyncHandler( async (req, res) => {
-
-    const { title, summary, content } = req.body
-    const image = req.file
-    console.log(image.filename)
-    if (!title || !summary || !content ) {
-        res.status(400);
-        throw new Error("All filed are required")
-    }
-    const post = await Post.create({
-        title,
-        summary,
-        content,
-        image:image.filename
-    })
-    if (post) {
-        res.status(201).json({ post })
-    } else {
-        res.status(400);
-        throw new Error("User data is not valid")
-    }
 });
+
+const userInfo = asyncHandler(async (req, res) => {
+    const userId = req.user.id;
+    const user = await User.findById(userId);
+    if (!user) {
+        res.status(404);
+        throw new Error("User not found");
+    }
+
+    const userBlogs = await Post.find({ userId: userId });
+    res.status(200).json({
+        user: {
+            id: user._id,
+            username: user.username,
+        },
+        blogs: userBlogs,
+    });
+});
+
+
 
 module.exports = {
     userLogin,
     userRegister,
     userInfo,
-    blogPost
-}
+};

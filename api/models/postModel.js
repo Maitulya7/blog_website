@@ -16,6 +16,11 @@ const postSchema = mongoose.Schema({
     image:{
         type:String,
         require:[true , "Please add the image"]
+    },
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
 }, {
     timestamps: true
