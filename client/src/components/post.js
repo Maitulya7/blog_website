@@ -1,8 +1,30 @@
-import React from 'react';
-import { Box, Typography, Link, IconButton, Avatar, Divider } from '@mui/material';
+import React, { useEffect } from 'react';
+import { Box, Typography, Link, IconButton, Avatar, Divider, Button } from '@mui/material';
 import { FavoriteBorder as FavoriteBorderIcon, Share as ShareIcon, Comment as CommentIcon } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom'; 
+import axios from 'axios';
 
 const BlogPost = () => {
+    const navigate = useNavigate(); 
+    const isLoggedIn = localStorage.getItem('access-token') !== null;
+
+    const handleGoToBlogPage = () => {
+        navigate('/blog-page'); 
+    };
+
+    useEffect(() => {
+        const token = localStorage.getItem("access-token");
+        if (isLoggedIn) {
+            axios.get("http://localhost:5000/api/users/userInfo", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }).then(response => {
+            }).catch(error => {
+                console.error('Error fetching user information:', error);
+            });
+        }
+    }, [isLoggedIn]);
 
     return (
         <Box
@@ -65,6 +87,7 @@ const BlogPost = () => {
                         </IconButton>
                     </Box>
                 </Box>
+                <Button variant="contained" color="primary" onClick={handleGoToBlogPage}>Go to Blog</Button>
             </Box>
         </Box>
     );

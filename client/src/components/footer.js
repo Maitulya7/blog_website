@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, IconButton, Grid, Stack } from '@mui/material';
+import { Typography, IconButton, Grid } from '@mui/material';
 import { Email, Facebook, Twitter, Instagram } from '@mui/icons-material';
 import footerImage from "../images/navbar-bg.jpg";
 import Lottie from 'react-lottie';
@@ -16,7 +16,7 @@ const Footer = () => {
     };
 
     return (
-        <footer style={{ backgroundImage: `url(${footerImage})`, backgroundSize: 'cover', color: '#fff', padding: '20px', textAlign: 'center' }}>
+        <footer style={{ position: 'fixed', bottom: 0, left: 0, width: '100%', backgroundImage: `url(${footerImage})`, backgroundSize: 'cover', color: '#fff', padding: '20px', textAlign: 'center', zIndex: 1000 }}>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Lottie options={defaultOptions} style={{ width: '300px', height: '200px', marginLeft: '30px' }} />
                 <div>

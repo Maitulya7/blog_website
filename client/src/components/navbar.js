@@ -10,21 +10,7 @@ const Navbar = () => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [name, setName] = useState('');
 
-    useEffect(() => {
-        const token = localStorage.getItem("access-token");
-        if (isLoggedIn) {
-            axios.get("http://localhost:5000/api/users/userInfo", {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }).then(response => {
-                setName(response.data.username);
-                console.log(name)
-            }).catch(error => {
-                console.error('Error fetching user information:', error);
-            });
-        }
-    }, [isLoggedIn]);
+
 
     const handleMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
