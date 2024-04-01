@@ -1,35 +1,39 @@
+// blogRouter.js
 const express = require("express");
 const router = express.Router();
-const { blogPost } = require("../controllers/blogController");
+const { blogPost, getBlogById, updateBlog, deleteBlog, likeBlog, getLikes, commentOnBlog, getComments, saveBlog, unSaveBlog, getAllBlogs } = require("../controllers/blogController");
 const validateToken = require("../middleware/tokenHandler");
 const uploadMiddleware = require("../middleware/uploadMiddleware");
 const checkUpload = require("../middleware/checkUpload");
 
 // Create blog post
-router.post("/", uploadMiddleware.single("image"), checkUpload, validateToken, (req, res, next) => {
-  blogPost(req, res, next);
-});
+router.post("/", uploadMiddleware.single("image"), checkUpload, validateToken, blogPost);
 
+// CRUD for specific blog
 router.route("/:blogId")
-  .get()
-  .put()
-  .delete(); // CRD IN SPECIFIC BLOG
+  .get(getBlogById)
+  .put(validateToken, updateBlog)
+  .delete(validateToken, deleteBlog);
 
-router.get("/"); // get all blogs
+// Get all blogs
+router.get("/", getAllBlogs);
 
+// CRUD for likes on a blog
 router.route("/:blogId/like")
-  .post()
-  .get()
-  .delete(); // CRD IN LIKE
+  .post(validateToken, likeBlog)
+  .get(getLikes)
+  .delete(validateToken, unSaveBlog);
 
+// CRUD for comments on a blog
 router.route("/:blogId/comment")
-  .post()
-  .get()
-  .delete(); // CRD IN COMMENT
+  .post(validateToken, commentOnBlog)
+  .get(getComments)
+  .delete(validateToken, unSaveBlog);
 
+// CRUD for saving a blog
 router.route("/:blogId/save")
-  .post()
-  .get()
-  .delete(); // CRD IN BLOG SAVE
+  .post(validateToken, saveBlog)
+  .get(getAllBlogs)
+  .delete(validateToken, unSaveBlog);
 
 module.exports = router;
