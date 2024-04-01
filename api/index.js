@@ -14,7 +14,10 @@ app.use(cors({
   }));
 
 app.use(express.json());
-app.use("/api/users" , require("./routes/userRoutes")) 
+app.use("/api/users" , require("./routes/authRoutes") , require("./routes/userRoutes"))
+app.use("/api/blog" , require("./routes/blogRoutes")) 
+app.use("/api/category" , require("./routes/categoryRoutes"))
+app.use("/api/search?q=query" , require("./routes/searchRoutes"))
 app.use(errorHandler)
 
 app.listen(PORT, console.log(`The server is running of port ${PORT}`))

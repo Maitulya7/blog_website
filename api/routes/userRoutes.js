@@ -1,17 +1,9 @@
-const express = require("express");
+const express = require("express")
 const router = express.Router();
-const { userLogin, userRegister, userInfo } = require("../controllers/userController");
-const {blogPost} = require("../controllers/blogController")
-const validateToken = require("../middleware/tokenHandler");
-const uploadMiddleware = require("../middleware/uploadMiddleware");
-const checkUpload = require("../middleware/checkUpload");
 
-router.post("/login", userLogin);
-router.post("/register", userRegister);
-router.post("/post", uploadMiddleware.single("image"), checkUpload, validateToken, (req, res, next) => {
-    blogPost(req, res, next);
-});
+router.post("/profile" ,) // create profile 
+router.route("/profile/:userId").put().get().delete() // CRUD IN USER PROFILE
+router.route("/profile/:userId/follow").post().get().delete() // CRD IN USER FOLLOW
 
-router.get("/userInfo", validateToken, userInfo);
+module.exports = router
 
-module.exports = router;
