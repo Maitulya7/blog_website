@@ -9,19 +9,48 @@ const postSchema = mongoose.Schema({
         type: String,
         required: [true, "Please add the summary"]
     },
-    content:{
-        type:String,
-        require:[true , "Please add the content"]
+    content: {
+        type: String,
+        required: [true, "Please add the content"]
     },
-    image:{
-        type:String,
-        require:[true , "Please add the image"]
+    image: {
+        type: String,
+        required: [true, "Please add the image"]
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
-    }
+    },
+    likes: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+        }
+    ],
+    comments: [
+        {
+            userId: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'User',
+                required: true
+            },
+            comment: {
+                type: String,
+                required: [true, "Please add a comment"]
+            },
+            createdAt: {
+                type: Date,
+                default: Date.now
+            }
+        }
+    ],
+    saves: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+        }
+    ]
 }, {
     timestamps: true
 });

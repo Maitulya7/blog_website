@@ -12,28 +12,28 @@ router.post("/", uploadMiddleware.single("image"), checkUpload, validateToken, b
 // CRUD for specific blog
 router.route("/:blogId")
   .get(getBlogById)
-  .put(validateToken, updateBlog)
-  .delete(validateToken, deleteBlog);
+  .put(updateBlog)
+  .delete( deleteBlog);
 
 // Get all blogs
 router.get("/", getAllBlogs);
 
 // CRUD for likes on a blog
 router.route("/:blogId/like")
-  .post(validateToken, likeBlog)
+  .post(likeBlog)
   .get(getLikes)
-  .delete(validateToken, unSaveBlog);
+  .delete( unSaveBlog);
 
 // CRUD for comments on a blog
 router.route("/:blogId/comment")
-  .post(validateToken, commentOnBlog)
+  .post( commentOnBlog)
   .get(getComments)
-  .delete(validateToken, unSaveBlog);
+  .delete( unSaveBlog);
 
 // CRUD for saving a blog
 router.route("/:blogId/save")
-  .post(validateToken, saveBlog)
+  .post( saveBlog)
   .get(getAllBlogs)
-  .delete(validateToken, unSaveBlog);
+  .delete( unSaveBlog);
 
 module.exports = router;

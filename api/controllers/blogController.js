@@ -33,6 +33,7 @@ const getBlogById = asyncHandler(async (req, res) => {
   const blog = await Post.findById(req.params.blogId);
   if (blog) {
     res.json(blog);
+    res.json({message:"blog by ID"})
   } else {
     res.status(404);
     throw new Error("Blog not found");
@@ -66,9 +67,10 @@ const deleteBlog = asyncHandler(async (req, res) => {
     throw new Error("Blog not found");
   }
 
-  await blog.remove();
-  res.json({ message: "Blog removed" });
+  const removedBlog = await Post.findByIdAndDelete(req.params.blogId);
+  res.status(200).json({ removedBlog });
 });
+
 
 // Like a blog
 const likeBlog = asyncHandler(async (req, res) => {
@@ -79,7 +81,6 @@ const likeBlog = asyncHandler(async (req, res) => {
     throw new Error("Blog not found");
   }
   
-  // Add user id to likes array if not already liked
   if (!blog.likes.includes(req.user.id)) {
     blog.likes.push(req.user.id);
     await blog.save();
